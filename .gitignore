@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# PyTorch checkpoints & model outputs
+outputs/
+*.pt
+*.pth
+*.bin
+*.safetensors
+
+# MLflow
+mlruns/
+mlartifacts/
+
+# Data files (downloaded at runtime)
+01_pretrain/data/
+02_sft/data/
+03_lora/data/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Misc
+*.log
