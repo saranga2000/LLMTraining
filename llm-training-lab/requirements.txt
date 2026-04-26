@@ -1,0 +1,12 @@
+torch
+transformers
+datasets
+peft
+trl
+tokenizers
+accelerate
+mlflow
+matplotlib
+numpy
+sentencepiece
+certifi
