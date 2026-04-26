@@ -1,0 +1,113 @@
+Cross-Phase Comparison: All 3 Models
+======================================================================
+
+Phase 1: NanoGPT (10.8M params, character-level, trained on Shakespeare)
+Phase 2: SmolLM2-135M SFT (135M params, instruction-tuned on Dolly-15k)
+Phase 3: SmolLM2-135M SFT + LoRA (135M + 0.9M adapter, medical domain)
+
+
+[1] General Knowledge
+    Prompt (NanoGPT): "The king"
+    Prompt (SFT/LoRA): "### Instruction:
+What is the capital of France?
+
+### Respons..."
+
+┌──────────────────┬──────────────────────────────────────────────────┐
+│ NanoGPT (Phase 1)│ The king:
+O the worse are his honour. Away he na │
+│                  │ me of his all
+The platiesty wofuld power more an │
+├──────────────────┼──────────────────────────────────────────────────┤
+│ SFT     (Phase 2)│ The capital of France is Paris.                  │
+│                  │                                                  │
+├──────────────────┼──────────────────────────────────────────────────┤
+│ LoRA    (Phase 3)│ The capital of France is Paris, which is located │
+│                  │  in the southeast of France.                     │
+└──────────────────┴──────────────────────────────────────────────────┘
+
+[2] Explanation
+    Prompt (NanoGPT): "To be or not"
+    Prompt (SFT/LoRA): "### Instruction:
+Explain what machine learning is in simple ..."
+
+┌──────────────────┬──────────────────────────────────────────────────┐
+│ NanoGPT (Phase 1)│ To be or not tender of your words.
+
+CLARENCE:
+Mo │
+│                  │ re heart is good not great: but he not good know │
+├──────────────────┼──────────────────────────────────────────────────┤
+│ SFT     (Phase 2)│ Machine learning is the process of creating algo │
+│                  │ rithms based on data that are able to learn from │
+├──────────────────┼──────────────────────────────────────────────────┤
+│ LoRA    (Phase 3)│ Machine learning is a type of artificial intelli │
+│                  │ gence that involves training models using data c │
+└──────────────────┴──────────────────────────────────────────────────┘
+
+[3] Medical Question
+    Prompt (NanoGPT): "The doctor"
+    Prompt (SFT/LoRA): "### Medical Question:
+What is hypertension?
+
+### Answer:..."
+
+┌──────────────────┬──────────────────────────────────────────────────┐
+│ NanoGPT (Phase 1)│ The doctors, or but hearting the wars of such
+Sh │
+│                  │ all less shall know the king of breath,
+Which is │
+├──────────────────┼──────────────────────────────────────────────────┤
+│ SFT     (Phase 2)│ 
+Hypertension is a term used to describe the ele │
+│                  │ vation of blood pressure. This can happen in man │
+├──────────────────┼──────────────────────────────────────────────────┤
+│ LoRA    (Phase 3)│ Hypertension is a type of high blood pressure th │
+│                  │ at can be caused by a variety of factors such as │
+└──────────────────┴──────────────────────────────────────────────────┘
+
+[4] Medical Question (Specific)
+    Prompt (NanoGPT): "What is the"
+    Prompt (SFT/LoRA): "### Medical Question:
+How does insulin work in the body?
+
+##..."
+
+┌──────────────────┬──────────────────────────────────────────────────┐
+│ NanoGPT (Phase 1)│ What is the virtuous to true,
+That we can the wi │
+│                  │ ll be see the counten's house.
+
+Nurse:
+Fear Murd │
+├──────────────────┼──────────────────────────────────────────────────┤
+│ SFT     (Phase 2)│ 
+Insulin is a hormone that is produced by the pa │
+│                  │ ncreas of the body. Insulin is secreted in small │
+├──────────────────┼──────────────────────────────────────────────────┤
+│ LoRA    (Phase 3)│ Insulin is a hormone secreted by beta cells in t │
+│                  │ he pancreas that regulates sugar (glucose) in th │
+└──────────────────┴──────────────────────────────────────────────────┘
+
+[5] Creative / Open-Ended
+    Prompt (NanoGPT): "ROMEO:"
+    Prompt (SFT/LoRA): "### Instruction:
+Write a short poem about the ocean.
+
+### Re..."
+
+┌──────────────────┬──────────────────────────────────────────────────┐
+│ NanoGPT (Phase 1)│ ROMEO:
+Shall be did with the means to him: but m │
+│                  │ y sons
+Purses their finds the blessing enemy's c │
+├──────────────────┼──────────────────────────────────────────────────┤
+│ SFT     (Phase 2)│ The ocean is one of the most beautiful natural p │
+│                  │ laces on Earth. There are more than 700 species  │
+├──────────────────┼──────────────────────────────────────────────────┤
+│ LoRA    (Phase 3)│ Include a description of where the ocean is loca │
+│                  │ ted on a map.
+
+### Explanation:
+The ocean is loc │
+└──────────────────┴──────────────────────────────────────────────────┘

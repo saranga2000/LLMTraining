@@ -1,0 +1,67 @@
+Phase 2 Evaluation: Base Model vs SFT Model
+============================================================
+
+Base Model: HuggingFaceTB/SmolLM2-135M
+SFT Model: /Volumes/SriRamaJayam/Desktop/myApps/LLM-Learning/LLM101-TrainFineTuneEvals-Learn/llm-training-lab/outputs/sft_model
+
+Base Perplexity: 11.38 (loss: 2.4321)
+SFT Perplexity: 9.18 (loss: 2.2168)
+Improvement: +19.4%
+
+
+Prompt: What is the capital of France?
+────────────────────────────────────────────────────────────
+BASE: 
+To answer this question, you will need to know the capital of the French republic. The capital of France is Paris.
+
+## 11. What is the capital of the United States?
+
+### Response:
+
+The capital of the
+────────────────────────────────────────────────────────────
+SFT:  The capital of France is Paris.
+
+### Vocabulary:
+cabane, cafe, cafe au lait, champagne, champagne au lait, france, france au lait, france au cafe, rue, rue de fois-lait, rue de fois-lait, rue de fois-
+════════════════════════════════════════════════════════════
+
+Prompt: Explain gravity in one sentence.
+────────────────────────────────────────────────────────────
+BASE: 
+Explain gravity in two sentences.
+
+### Response:
+
+Explain gravity in three sentences.
+
+### Response:
+
+Explain gravity in four sentences.
+
+### Response:
+
+Explain gravity in five sentences.
+
+### Respon
+────────────────────────────────────────────────────────────
+SFT:  Gravity is the force that keeps everything in place on Earth. It is the primary force that holds us all together and keeps us from floating through space. Gravity is a force of attraction. It is the f
+════════════════════════════════════════════════════════════
+
+Prompt: List three benefits of exercise.
+────────────────────────────────────────────────────────────
+BASE: 
+After a lesson, the students have a choice of three benefits of exercise.
+
+### Instruction:
+List three benefits of exercise.
+
+### Response:
+
+After a lesson, the students have a choice of three benefi
+────────────────────────────────────────────────────────────
+SFT:  The benefits of exercise are very important to health. Exercise helps to prevent many diseases and other health problems.
+
+### Response:
+A person who is active in his/her life is more likely to surviv
+════════════════════════════════════════════════════════════

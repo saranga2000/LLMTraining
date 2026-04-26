@@ -16,21 +16,24 @@ env/
 # Jupyter
 .ipynb_checkpoints/
 
-# PyTorch checkpoints & model outputs
-outputs/
+# PyTorch checkpoints & model weights (large binaries)
 *.pt
 *.pth
 *.bin
 *.safetensors
+
+# Model output directories (large, regenerable)
+**/outputs/sft_model/
+**/outputs/lora_adapter/
 
 # MLflow
 mlruns/
 mlartifacts/
 
 # Data files (downloaded at runtime)
-01_pretrain/data/
-02_sft/data/
-03_lora/data/
+**/01_pretrain/data/
+**/02_sft/data/
+**/03_lora/data/
 
 # OS
 .DS_Store

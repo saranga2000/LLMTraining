@@ -127,6 +127,14 @@ Not Shakespeare, but grammatically valid English learned purely from statistics 
 
 Only **3.5 MB** of adapter weights added this medical expertise to a 270 MB model.
 
+### Summary: Loss Across All Phases
+
+| Phase | Final Train Loss | Final Eval Loss | Perplexity |
+|-------|-----------------|-----------------|------------|
+| Pre-training (NanoGPT, 10.8M params) | 1.3572 | 1.5692 | 4.8 |
+| SFT (SmolLM2-135M, Dolly-15k) | 2.3885 | 2.2542 | 9.5 |
+| LoRA (Medical Adapter, 921K params) | 1.2979 | 1.3312 | 3.8 |
+
 ---
 
 ## Quick Start

@@ -48,7 +48,7 @@ def read_mlflow_param(run_path, param_name):
 
 
 def find_run_path(experiment_name):
-    """Find the run directory for a given experiment name."""
+    """Find the run directory with the most metrics for a given experiment."""
     # Scan experiment directories
     for exp_dir in glob.glob(os.path.join(MLRUNS_DIR, "*")):
         meta_file = os.path.join(exp_dir, "meta.yaml")
@@ -56,13 +56,58 @@ def find_run_path(experiment_name):
             with open(meta_file, "r") as f:
                 content = f.read()
                 if f"name: {experiment_name}" in content:
-                    # Found the experiment, now find runs
+                    # Found the experiment — find the run with the most metrics
+                    best_run = None
+                    best_count = 0
                     for run_dir in glob.glob(os.path.join(exp_dir, "*")):
-                        if os.path.isdir(run_dir) and os.path.exists(
-                            os.path.join(run_dir, "metrics")
-                        ):
-                            return run_dir
+                        metrics_dir = os.path.join(run_dir, "metrics")
+                        if os.path.isdir(run_dir) and os.path.exists(metrics_dir):
+                            count = len(os.listdir(metrics_dir))
+                            if count > best_count:
+                                best_count = count
+                                best_run = run_dir
+                    return best_run
     return None
+
+
+def plot_summary_panel(ax, train_loss_val, eval_loss_val, title, extra_lines=None):
+    """When only final metrics are available (no step-by-step curve),
+    draw a clean summary panel instead of a single-dot plot."""
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis("off")
+    ax.set_title(title, fontsize=11)
+
+    y = 0.75
+    ax.text(0.5, y, "Final Metrics", ha="center", va="center",
+            fontsize=13, fontweight="bold", color="#333")
+    y -= 0.18
+    ax.text(0.5, y, f"Train Loss:  {train_loss_val:.4f}",
+            ha="center", va="center", fontsize=14, color="#2196F3",
+            fontfamily="monospace")
+    y -= 0.14
+    ax.text(0.5, y, f"Eval  Loss:  {eval_loss_val:.4f}",
+            ha="center", va="center", fontsize=14, color="#FF5722",
+            fontfamily="monospace")
+    y -= 0.14
+    ppl = 2.718281828 ** eval_loss_val
+    ax.text(0.5, y, f"Perplexity:  {ppl:.1f}",
+            ha="center", va="center", fontsize=14, color="#4CAF50",
+            fontfamily="monospace")
+
+    if extra_lines:
+        for line in extra_lines:
+            y -= 0.11
+            ax.text(0.5, y, line, ha="center", va="center",
+                    fontsize=9, color="gray")
+
+    # Light border
+    for spine in ax.spines.values():
+        spine.set_visible(True)
+        spine.set_color("#ddd")
+
+    ax.text(0.5, 0.03, "(final summary metrics — step-by-step curves\nnot logged to MLflow for this phase)",
+            ha="center", va="center", fontsize=7, color="#999", style="italic")
 
 
 def plot_curves():
@@ -109,19 +154,28 @@ def plot_curves():
         train_steps, train_loss = read_mlflow_metric(run_path, "train_loss")
         val_steps, val_loss = read_mlflow_metric(run_path, "eval_loss")
 
-        ax = axes[1]
-        if train_steps:
-            ax.plot(train_steps, train_loss, label="Train Loss", color="#2196F3", alpha=0.8)
-        if val_steps:
-            ax.plot(val_steps, val_loss, label="Eval Loss", color="#FF5722", alpha=0.8, linestyle="--")
-        ax.set_title("Phase 2: SFT (SmolLM2-135M)\n135M params, Dolly-15k", fontsize=11)
-        ax.set_xlabel("Step")
-        ax.set_ylabel("Loss")
-        ax.legend()
-        ax.grid(True, alpha=0.3)
-
         final_train = train_loss[-1] if train_loss else None
         final_val = val_loss[-1] if val_loss else None
+
+        ax = axes[1]
+        has_curve = len(train_steps) > 1 or len(val_steps) > 1
+        if has_curve:
+            if train_steps:
+                ax.plot(train_steps, train_loss, label="Train Loss", color="#2196F3", alpha=0.8)
+            if val_steps:
+                ax.plot(val_steps, val_loss, label="Eval Loss", color="#FF5722", alpha=0.8, linestyle="--")
+            ax.set_title("Phase 2: SFT (SmolLM2-135M)\n135M params, Dolly-15k", fontsize=11)
+            ax.set_xlabel("Step")
+            ax.set_ylabel("Loss")
+            ax.legend()
+            ax.grid(True, alpha=0.3)
+        elif final_train is not None and final_val is not None:
+            plot_summary_panel(ax, final_train, final_val,
+                               "Phase 2: SFT (SmolLM2-135M)\n135M params, Dolly-15k",
+                               ["3 epochs, lr=2e-5, cosine schedule"])
+        else:
+            ax.text(0.5, 0.5, "No data found", ha="center", va="center", transform=ax.transAxes)
+
         summary.append(("sft_dolly", final_train, final_val))
         print(f"  Train loss: {final_train:.4f}" if final_train else "  No train loss found")
         print(f"  Eval loss: {final_val:.4f}" if final_val else "  No eval loss found")
@@ -136,29 +190,43 @@ def plot_curves():
         train_steps, train_loss = read_mlflow_metric(run_path, "train_loss")
         val_steps, val_loss = read_mlflow_metric(run_path, "eval_loss")
 
-        ax = axes[2]
-        if train_steps:
-            ax.plot(train_steps, train_loss, label="Train Loss", color="#2196F3", alpha=0.8)
-        if val_steps:
-            ax.plot(val_steps, val_loss, label="Eval Loss", color="#FF5722", alpha=0.8, linestyle="--")
-        ax.set_title("Phase 3: LoRA (Medical Adapter)\n0.9M trainable / 135M total", fontsize=11)
-        ax.set_xlabel("Step")
-        ax.set_ylabel("Loss")
-        ax.legend()
-        ax.grid(True, alpha=0.3)
-
-        # Add annotation for trainable params
-        trainable = read_mlflow_param(run_path, "trainable_params")
-        efficiency = read_mlflow_param(run_path, "param_efficiency_pct")
-        if trainable and efficiency:
-            ax.annotate(
-                f"Trainable: {int(trainable):,} ({efficiency}%)",
-                xy=(0.02, 0.02), xycoords="axes fraction",
-                fontsize=8, color="gray",
-            )
-
         final_train = train_loss[-1] if train_loss else None
         final_val = val_loss[-1] if val_loss else None
+
+        # Read LoRA-specific params for annotation
+        trainable = read_mlflow_param(run_path, "trainable_params")
+        efficiency = read_mlflow_param(run_path, "param_efficiency_pct")
+
+        ax = axes[2]
+        has_curve = len(train_steps) > 1 or len(val_steps) > 1
+        if has_curve:
+            if train_steps:
+                ax.plot(train_steps, train_loss, label="Train Loss", color="#2196F3", alpha=0.8)
+            if val_steps:
+                ax.plot(val_steps, val_loss, label="Eval Loss", color="#FF5722", alpha=0.8, linestyle="--")
+            ax.set_title("Phase 3: LoRA (Medical Adapter)\n0.9M trainable / 135M total", fontsize=11)
+            ax.set_xlabel("Step")
+            ax.set_ylabel("Loss")
+            ax.legend()
+            ax.grid(True, alpha=0.3)
+            if trainable and efficiency:
+                ax.annotate(
+                    f"Trainable: {int(trainable):,} ({efficiency}%)",
+                    xy=(0.02, 0.02), xycoords="axes fraction",
+                    fontsize=8, color="gray",
+                )
+        elif final_train is not None and final_val is not None:
+            extra = []
+            if trainable and efficiency:
+                extra.append(f"LoRA r=16 | {int(trainable):,} params ({efficiency}%)")
+            else:
+                extra.append("5 epochs, lr=3e-4, LoRA r=16")
+            plot_summary_panel(ax, final_train, final_val,
+                               "Phase 3: LoRA (Medical Adapter)\n0.9M trainable / 135M total",
+                               extra)
+        else:
+            ax.text(0.5, 0.5, "No data found", ha="center", va="center", transform=ax.transAxes)
+
         summary.append(("lora_medical", final_train, final_val))
         print(f"  Train loss: {final_train:.4f}" if final_train else "  No train loss found")
         print(f"  Eval loss: {final_val:.4f}" if final_val else "  No eval loss found")

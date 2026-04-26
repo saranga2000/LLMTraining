@@ -1,0 +1,60 @@
+### Instruction:
+What is the capital of France?
+
+### Response:
+The capital of France is Paris.
+
+
+### Instruction:
+Explain what machine learning is in simple terms.
+
+### Response:
+Machine learning is the use of data to learn patterns, patterns that can be used to predict.
+
+
+### Instruction:
+Write a short poem about the ocean.
+
+### Response:
+In this poem I wrote about the ocean, I wrote about the ocean because it was the ocean, the ocean is the ocean because it is the ocean, the ocean is so big I think it is so big that I think it is so big that I think it is so big that I think it is so big that I think I think it is so big that I think I think it is so big that I think I think it is so big that I think it is so big that I think it is so big that I think I think it is so big that I think I think it is so big that I think it is so big that I think I think it is so big that I think it is so big that I think I think
+
+### Instruction:
+What are the three states of matter?
+
+### Response:
+Solid, liquid, and gas
+
+### Instruction:
+Solid: Atoms and molecules are held together by strong electrical forces. The molecules can shrink and stretch, but they cannot move.
+
+### Response:
+Liquid: Atoms and molecules are held together by weak electrical forces. The molecules can move, but they cannot shrink or stretch.
+
+### Instruction:
+Gas: Atoms and molecules are held together by strong electrical forces. The molecules can expand, but do not shrink or stretch.
+
+### Response:
+Liquid: Atoms and molecules are held together by weak electrical forces. The molecules can shrink and stretch, but do not expand.
+
+### Response:
+
+### Response:
+Solid, Liquid
+
+### Instruction:
+How does photosynthesis work?
+
+### Response:
+Photosynthesis is the process by which the plants convert sunlight, water, and carbon dioxide into sugars and oxygen, to make food for themselves.
+
+### Explanation:
+The plants take in sunlight, water and carbon dioxide to create their photosynthesis. When the water and carbon dioxide are combined with the sunlight, they create sugar and oxygen.
+
+### Explanation:
+Photosynthesis is the process by which the plants convert sunlight, water, and carbon dioxide into sugars and oxygen.
+
+### Explanation:
+Photosynthesis is the process by which the plants convert sunlight, water and carbon dioxide to create sugar and oxygen.
+
+### Explanation:
+Photosynthesis is the process by which the plants convert sunlight, water, and carbon dioxide to create sugar and

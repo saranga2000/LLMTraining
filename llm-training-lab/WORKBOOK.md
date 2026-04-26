@@ -582,6 +582,29 @@ python eval/plot_curves.py
 
 This pulls metrics from MLflow and plots training/validation loss curves for all three phases. The plot is saved to `outputs/loss_curves.png`.
 
+### INTERPRET: What the results tell you
+
+**Cross-Phase Comparison — what to notice:**
+
+| Model | Behavior | Why |
+|-------|----------|-----|
+| **NanoGPT** | Generates Shakespeare-like text regardless of prompt | It was trained *only* on Shakespeare. It has no concept of "instructions" — it just continues text in the style it learned. |
+| **SFT** | Follows instructions, gives generic answers | It started from a model that already knows English (SmolLM2-135M trained on 1T tokens) and learned the instruction-response format from Dolly-15k. |
+| **SFT+LoRA** | Gives domain-specific medical answers | The LoRA adapter added medical knowledge on top of the SFT model. With only 921K trainable parameters (0.68% of the model), it learned to answer medical questions differently than the base SFT model. |
+
+**Loss Curve Summary:**
+
+| Phase | Final Train Loss | Final Eval Loss | Perplexity |
+|-------|-----------------|-----------------|------------|
+| Pre-training (NanoGPT) | 1.3572 | 1.5692 | 4.8 |
+| SFT (SmolLM2-135M) | 2.3885 | 2.2542 | 9.5 |
+| LoRA (Medical Adapter) | 1.2979 | 1.3312 | 3.8 |
+
+**Key observations:**
+- **Phase 1** has a full loss curve showing the characteristic "sharp drop then plateau" pattern — this is what learning looks like. The gap between train and val loss (1.36 vs 1.57) shows slight overfitting, which is normal for a small dataset.
+- **Phase 2 and 3** show only final summary metrics (step-by-step curves weren't logged to MLflow by the HuggingFace Trainer). In production, you'd configure the trainer to log metrics at every step.
+- **LoRA perplexity (3.8) is lower than SFT (9.5)** — the medical adapter makes the model much more confident on medical text. But this comparison isn't apples-to-apples: LoRA was evaluated on *medical* text (its training domain), while SFT was evaluated on *general instructions*.
+
 ### Step 4.3: Explore in MLflow
 
 ```bash

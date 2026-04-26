@@ -1,0 +1,29 @@
+### Medical Question:
+What is hypertension?
+
+### Answer:
+Hypertension is a medical condition characterized by high blood pressure. It can affect anyone, but it is more common in individuals with certain genetic or environmental factors. Hypertension is characterized by high blood pressure that is not due to underlying kidney disease or other underlying medical conditions. It can lead to serious health complications, such as stroke, heart attack, and kidney damage, which can be life-threatening if left untreated. High blood pressure can also increase the risk of developing other medical conditions, such as heart disease, stroke, and diabetes. In some cases, hypertension may be caused by a combination of genetic and environmental factors, such as a family history of hypertension or high blood pressure. Treatment for hypertension can involve medication, lifestyle changes, and if necessary, surgery.
+
+### Medical Question:
+What are the symptoms of diabetes?
+
+### Answer:
+Diabetes is characterized by the development of abnormal amounts of glucose in the blood. This can lead to several complications, including cardiovascular disease, neuropathy, and eye problems. These symptoms can be more apparent in older adults and those with a history of diabetes. It is important for individuals with diabetes to be aware of the symptoms and to take appropriate actions to manage their condition.
+
+### Medical Question:
+What is the function of the liver?
+
+### Answer:
+The liver is responsible for detoxifying excess bilirubin in the body.
+
+### Medical Question:
+What is an electrocardiogram (ECG)?
+
+### Answer:
+An electrocardiogram (ECG) is a recording of the electrical activity of the heart, which is measured by electrodes that are attached to the skin and attached to the heart. An ECG provides information about the electrical activity of the heart and can help diagnose various heart conditions, such as arrhythmias and congenital heart defects. A normal ECG shows a normal sinus rhythm, which is the normal, regular rhythm of the heart. An abnormal ECG may indicate the presence of a heart problem, such as a heart attack or a previous heart attack.
+
+### Medical Question:
+What causes anemia?
+
+### Answer:
+Anemia is caused by a lack of iron in the body. Iron is a mineral that is essential for the production of red blood cells and other blood cells. A lack of iron can cause a decrease in red blood cells, which can lead to a lack of oxygen in the blood, which can cause symptoms such as fatigue and shortness of breath. Other than anemia, there are other conditions that may cause anemia, such as sickle cell disease and iron deficiency anemia. It is important to be aware of these conditions and manage them appropriately to prevent anemia.

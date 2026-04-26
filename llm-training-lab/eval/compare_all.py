@@ -27,7 +27,7 @@ sys.path.insert(0, PRETRAIN_DIR)
 
 def load_nanogpt():
     """Load the Phase 1 NanoGPT model."""
-    from model import NanoGPT, NanoGPTConfig
+    from model import NanoGPT
 
     checkpoint_path = os.path.join(BASE_DIR, "outputs", "pretrain_best.pt")
     if not os.path.exists(checkpoint_path):
@@ -35,18 +35,21 @@ def load_nanogpt():
         return None, None
 
     checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
-    config = NanoGPTConfig(**checkpoint["config"])
-    model = NanoGPT(config)
-    model.load_state_dict(checkpoint["model"])
+    config = checkpoint["config"]
+    model = NanoGPT(**config)
+    model.load_state_dict(checkpoint["model_state_dict"])
 
     device = "mps" if torch.backends.mps.is_available() else "cpu"
     model = model.to(device)
     model.eval()
 
-    # Load vocabulary
+    # Load vocabulary from meta.pkl
+    import pickle
     data_dir = os.path.join(PRETRAIN_DIR, "data")
-    stoi = torch.load(os.path.join(data_dir, "stoi.pt"), weights_only=False)
-    itos = torch.load(os.path.join(data_dir, "itos.pt"), weights_only=False)
+    with open(os.path.join(data_dir, "meta.pkl"), "rb") as f:
+        meta = pickle.load(f)
+    stoi = meta["stoi"]
+    itos = meta["itos"]
 
     return model, {"stoi": stoi, "itos": itos, "device": device}
 
